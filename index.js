@@ -59,7 +59,8 @@ const questions = () => {
             choices:[
               'MIT',
               'Apache_2.0',
-              'ISC'
+              'ISC',
+              'None'
             ]
           }
           //is it possible to create a for loop for this stuff? is it too complicated?
