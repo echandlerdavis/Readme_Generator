@@ -1,4 +1,4 @@
-<!-- # <Project Title>
+# README Generator
 
 ## Description
 
@@ -27,4 +27,4 @@
 
 ## Badges
 
-- a badge, i guess  -->
+- a badge, i guess 

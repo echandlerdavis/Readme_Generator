@@ -1,13 +1,15 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const path = require('path');
+const generateMarkdown = require('./utils/generateMarkdown')
 
 // TODO: Create an array of questions for user input
 const questions = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'projecttitle',
+            name: 'title',
             message: 'What is the title of your project?',
           },
           {
@@ -41,16 +43,6 @@ const questions = () => {
             message: 'Provide instructions for use.',
           },
           {
-            type: 'input',
-            name: 'screenshot',
-            message: 'Provide the pathway in your assets folder to an image of your homepage',
-          },
-          {
-            type:'input',
-            name:'credits',
-            message:'Did you have any collaborators?'
-          },
-          {
             type:'input',
             name:'collaborators',
             message:'What were your collaborators names?'
@@ -60,6 +52,16 @@ const questions = () => {
             name:'github',
             message:'What are the links to their github profiles?'
           },
+          {
+            type:'list',
+            name:'license',
+            message:'What type of license are you using?',
+            choices:[
+              'MIT',
+              'Apache_2.0',
+              'ISC'
+            ]
+          }
           //is it possible to create a for loop for this stuff? is it too complicated?
           //this is where the licensing stuff will go. 
           
@@ -69,44 +71,18 @@ const questions = () => {
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    //don't understand how to use fileName 
-    `# <${data.projecttitle}>
-
-    ## Description
+    return fs.writeFileSync(path.join(process.cwd(), fileName), data)
     
-    - ${data.motivation}
-    - ${data.why}
-    - ${data.problem}
-    - ${data.learn}
-    
-    ## Installation
-    
-    - ${data.installation}
-    
-    ## Usage
-    
-    - ${data.usage}
-    
-    ![${data.projecttitle} homepage](${data.screenshot})
-    
-    ## Credits
-    
-    - (collaborators) - (github)
-    
-    ## License 
-    
-    - ${data.license}
-    
-    ## Badges
-    
-    - ${data.badge} `
 
 }
 
 // TODO: Create a function to initialize app
 function init() {
     questions()
-        .then((data) => fs.writeFileSync('README.md', writeToFile(data)))
+        .then((data) => {console.log(data);
+          writeToFile('myREADME.md', generateMarkdown(data))
+      
+      })
         //will this just add it to the existing readme? or will it create a new one?
         .then(()=> console.log('Successfully wrote to README.md'))
         .catch((err) => console.error(err));
